@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+target/
+*.jar
+*.war
+*.ear
+
+# Testing & Coverage
+coverage/
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Production & Build outputs
+dist/
+build/
+out/
+
+# Environment and Local Configs
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.log
+
+# IDE and local files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+powershell.cmd
