@@ -15,26 +15,26 @@
 
 ```mermaid
 graph TD
-    StudentRecruiter([Student / Recruiter / Admin]) -->|HTTPS| ReactFrontend[React + Vite SaaS UI on Vercel]
-    ReactFrontend -->|Axios REST / JWT| SpringBackend[Spring Boot Backend API on Render]
+    StudentRecruiter["Student / Recruiter / Admin"] -->|HTTPS| ReactFrontend["React + Vite SaaS UI on Vercel"]
+    ReactFrontend -->|Axios REST / JWT| SpringBackend["Spring Boot Backend API on Render"]
     
-    subgraph Spring Boot Backend Layer (Render Native Java)
-        Controller[REST Controllers & Validation] --> Service[Business & Storage Services]
-        Service --> RankingEngine[Java DSA Ranking Engine PriorityQueue]
-        Service --> Security[Spring Security & JWT Filter]
-        Service --> JPA[Spring Data JPA Repositories]
+    subgraph Backend ["Spring Boot Backend Layer (Render Native Java)"]
+        Controller["REST Controllers & Validation"] --> Service["Business & Storage Services"]
+        Service --> RankingEngine["Java DSA Ranking Engine PriorityQueue"]
+        Service --> Security["Spring Security & JWT Filter"]
+        Service --> JPA["Spring Data JPA Repositories"]
     end
 
-    SpringBackend -->|Hibernate / JDBC| MySQLDB[(Managed MySQL / In-Memory H2 DB)]
-    SpringBackend -->|Multipart / REST| PythonAIService[Python FastAPI Microservice on Render]
+    SpringBackend -->|Hibernate / JDBC| MySQLDB[("Managed MySQL / In-Memory H2 DB")]
+    SpringBackend -->|Multipart / REST| PythonAIService["Python FastAPI Microservice on Render"]
     
-    subgraph AI / NLP Intelligence Layer (Render Native Python)
-        PythonAIService --> SkillExtractor[Regex & N-Gram Taxonomy Engine]
-        PythonAIService --> VectorSim[TF-IDF Cosine Similarity Engine]
-        PythonAIService --> OllamaQwen[Local Ollama Qwen3 / Qwen2.5 LLM]
+    subgraph AIServiceLayer ["AI / NLP Intelligence Layer (Render Native Python)"]
+        PythonAIService --> SkillExtractor["Regex & N-Gram Taxonomy Engine"]
+        PythonAIService --> VectorSim["TF-IDF Cosine Similarity Engine"]
+        PythonAIService --> OllamaQwen["Local Ollama Qwen3 / Qwen2.5 LLM"]
     end
 
-    RankingEngine -->|Explainable Ranked Candidates| RecruiterDashboard[Recruiter Candidate Ranking Console]
+    RankingEngine -->|Explainable Ranked Candidates| RecruiterDashboard["Recruiter Candidate Ranking Console"]
 ```
 
 ---

@@ -8,23 +8,23 @@ CampusConnect is an enterprise-grade AI-powered campus recruitment and placement
 
 ```mermaid
 graph TD
-    User([Student / Recruiter / Admin]) -->|HTTPS| Frontend[React + Vite SaaS UI on Vercel]
-    Frontend -->|Axios REST / JWT| Backend[Spring Boot REST API on Render]
+    User["Student / Recruiter / Admin"] -->|HTTPS| Frontend["React + Vite SaaS UI on Vercel"]
+    Frontend -->|Axios REST / JWT| Backend["Spring Boot REST API on Render"]
     
-    subgraph Spring Boot Backend Layer
-        Controller[Controllers & Validation] --> Service[Business Services]
-        Service --> Ranking[Java DSA Ranking Engine]
-        Service --> Security[Spring Security & JWT Filter]
-        Service --> Repo[Spring Data JPA Repositories]
+    subgraph SpringBackend ["Spring Boot Backend Layer"]
+        Controller["Controllers & Validation"] --> Service["Business Services"]
+        Service --> Ranking["Java DSA Ranking Engine"]
+        Service --> Security["Spring Security & JWT Filter"]
+        Service --> Repo["Spring Data JPA Repositories"]
     end
 
-    Backend -->|JDBC Connection Pool| MySQL[(MySQL Database / Render Managed)]
-    Backend -->|HTTP Multipart / JSON| AIService[Python FastAPI Microservice on Render]
+    Backend -->|JDBC Connection Pool| MySQL[("MySQL Database / Render Managed")]
+    Backend -->|HTTP Multipart / JSON| PythonService["Python FastAPI Microservice on Render"]
     
-    subgraph AI / NLP Intelligence Layer
-        AIService --> SkillExtractor[Taxonomy Rule Engine]
-        AIService --> TFIDF[TF-IDF & Cosine Similarity]
-        AIService --> Ollama[Local Ollama Qwen3 / Qwen2.5 LLM]
+    subgraph NLPService ["AI / NLP Intelligence Layer"]
+        PythonService --> SkillExtractor["Taxonomy Rule Engine"]
+        PythonService --> TFIDF["TF-IDF & Cosine Similarity"]
+        PythonService --> Ollama["Local Ollama Qwen3 / Qwen2.5 LLM"]
     end
 ```
 
