@@ -1,12 +1,13 @@
 # CampusConnect — AI-Powered Campus Placement & Recruitment Portal
 
-[![Architecture: Polyglot Microservices](https://img.shields.io/badge/Architecture-Spring%20Boot%20%7C%20FastAPI%20%7C%20React-blue.svg)](https://github.com)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-AbhijatPatel%2FCampusConnect-181717.svg?logo=github)](https://github.com/AbhijatPatel/CampusConnect)
+[![Architecture: Polyglot Microservices](https://img.shields.io/badge/Architecture-Spring%20Boot%20%7C%20FastAPI%20%7C%20React-blue.svg)](docs/architecture.md)
 [![DSA Ranking: PriorityQueue MaxHeap](https://img.shields.io/badge/DSA%20Engine-O(N%20log%20K)%20Heap-emerald.svg)](docs/ranking-algorithm.md)
 [![AI / NLP: Scikit-Learn & Ollama Qwen](https://img.shields.io/badge/AI%20Layer-TF--IDF%20%2B%20Qwen3-purple.svg)](docs/ai-matching.md)
 [![Deployment: Vercel & Render](https://img.shields.io/badge/Deploy-Vercel%20%2B%20Render-black.svg)](docs/deployment.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](LICENSE)
 
-**CampusConnect** is a full-stack, enterprise-grade campus placement and recruitment platform designed to eliminate resume black holes and connect university talent with top employers through intelligent NLP resume parsing, semantic job matching, and a fully explainable Java DSA priority ranking engine.
+**CampusConnect** is a full-stack, enterprise-grade campus placement and recruitment platform designed to eliminate resume black holes and connect university talent with top employers through intelligent NLP resume parsing, semantic job matching, dynamic candidate portfolio management, and a fully explainable Java DSA priority ranking engine.
 
 ---
 
@@ -24,7 +25,7 @@ graph TD
         Service --> JPA[Spring Data JPA Repositories]
     end
 
-    SpringBackend -->|Hibernate / JDBC| MySQLDB[(Managed MySQL / Render DB)]
+    SpringBackend -->|Hibernate / JDBC| MySQLDB[(Managed MySQL / In-Memory H2 DB)]
     SpringBackend -->|Multipart / REST| PythonAIService[Python FastAPI Microservice on Render]
     
     subgraph AI / NLP Intelligence Layer (Render Native Python)
@@ -40,12 +41,13 @@ graph TD
 
 ## 2. Key Features
 
-- **Multi-Role Authentication**: JWT-based stateless authentication with BCrypt hashing for `STUDENT`, `RECRUITER`, and `ADMIN`.
-- **Explainable DSA Ranking Engine**: Transparent Java algorithm utilizing a Max-Heap `PriorityQueue` with a multi-factor custom `Comparator` and configurable evaluation weights.
-- **AI/NLP Resume Parsing**: Instant technical skill extraction, TF-IDF cosine similarity, and gap analysis with actionable upskilling steps.
-- **Dynamic Job Search & Filters**: Server-side pagination, search by title/skills/location, salary range, and eligibility filtering.
-- **Hiring Pipeline Tracking**: Interactive status progression (`Applied` → `Under Review` → `Shortlisted` → `Interview` → `Selected`).
-- **Comprehensive Analytics**: Recharts visualizations for recruiter candidate funnels and student application distributions.
+- **Multi-Role Authentication & Access Control**: Stateless JWT authentication with BCrypt hashing for `ROLE_STUDENT`, `ROLE_RECRUITER`, and `ROLE_ADMIN`.
+- **Explainable DSA Priority Ranking Engine**: Transparent algorithm using a Max-Heap `PriorityQueue` with a multi-factor custom `Comparator` and configurable recruiter weights ($O(N \log K)$ runtime).
+- **Candidate Portfolio & Profile Management**: Complete CRUD operations for Technical Skills, GitHub-integrated Projects, Work Experience, and Academic Information with dedicated JPA entity persistence.
+- **AI/NLP Resume Parsing**: Instant technical skill extraction, TF-IDF cosine similarity scoring, and gap analysis with actionable upskilling steps.
+- **Dynamic Job Search & Filters**: Server-side pagination, search by title/skills/location, salary filters, and eligibility thresholds.
+- **Real-Time Hiring Pipeline**: Visual status tracking (`Applied` → `Under Review` → `Shortlisted` → `Interview` → `Selected`).
+- **Comprehensive Analytics & Dashboards**: Recharts visualizations for recruiter candidate funnels and student application progress.
 - **Enterprise Notification Center**: Automatic notifications triggered upon application submission, status transitions, and interviews.
 
 ---
@@ -54,14 +56,14 @@ graph TD
 
 | Layer | Technologies | Deployment Target |
 |---|---|---|
-| **Frontend** | React 18, Vite, JavaScript (JSX), Tailwind CSS, Lucide React, Recharts, Axios | **Vercel** |
-| **Backend API** | Java 17, Spring Boot 3.2, Spring Security 6, Spring Data JPA, JWT, Lombok, Maven | **Render** |
+| **Frontend** | React 18, Vite, Tailwind CSS, Lucide React, Recharts, Axios | **Vercel** |
+| **Backend API** | Java 17+, Spring Boot 3.2, Spring Security 6, Spring Data JPA, JWT, Maven | **Render** |
 | **AI / NLP Service** | Python 3.11, FastAPI, Pydantic, Scikit-Learn, Ollama (Qwen3 / Qwen2.5) | **Render** |
-| **Database** | MySQL 8.0 (Managed MySQL / Render MySQL / Aiven) | Cloud MySQL Provider |
+| **Database** | MySQL 8.0 (Production) / In-Memory H2 (Local Development) | Cloud MySQL / Render |
 
 ---
 
-## 4. DSA Priority Ranking Engine (Flagship Feature)
+## 4. DSA Priority Ranking Engine
 
 The ranking engine calculates a multi-attribute weighted score:
 
@@ -74,8 +76,8 @@ $$\text{Composite Score} = (S \times 0.40) + (N \times 0.20) + (E \times 0.15) +
 - **Projects ($P$, 10%)**: Portfolio breadth and GitHub repositories.
 - **Eligibility ($L$, 5%)**: Minimum CGPA threshold verification.
 
-### Time & Space Complexity
-- **Time Complexity**: $O(N \log K)$ ranking using a Max-Heap `PriorityQueue`.
+### Complexity
+- **Time Complexity**: $O(N \log K)$ ranking using a bounded Max-Heap `PriorityQueue`.
 - **Space Complexity**: $O(N)$ auxiliary heap memory.
 - For complete algorithmic documentation and test proofs, see [docs/ranking-algorithm.md](docs/ranking-algorithm.md).
 
@@ -83,7 +85,7 @@ $$\text{Composite Score} = (S \times 0.40) + (N \times 0.20) + (E \times 0.15) +
 
 ## 5. Seed Dataset (Indian Campus Placement Data)
 
-Pre-populated realistic seed data is automatically initialized on first startup:
+Pre-populated realistic seed data is automatically initialized on startup:
 - **10 Students**: Top university candidates with realistic Indian academic profiles, CGPA, projects, and skills.
 - **5 Companies**: TechNova Solutions, CloudVibe Systems, DataSphere Analytics, QuantumEdge Infotech, CyberPulse Networks.
 - **3 Recruiters**: Lead campus recruiters with dedicated hiring pipelines.
@@ -94,11 +96,11 @@ Pre-populated realistic seed data is automatically initialized on first startup:
 
 | Role | Email | Password | Pre-configured Access |
 |---|---|---|---|
-| **Student** | `abhijat@gmail.com` | `password123` | Student Dashboard, Resume Analyzer, Application Tracker |
+| **Student** | `abhijat@gmail.com` | `password123` | Student Dashboard, Resume Analyzer, Portfolio & Profile Editor |
 | **Recruiter** | `recruiter1@technova.com` | `password123` | Recruiter Console, Job Creator, DSA Candidate Ranking |
 | **Administrator** | `admin@campusconnect.com` | `admin123` | Admin Portal, User Management, Global Metrics |
 
-*(Quick one-click demo login buttons are provided on the login page).*
+*(One-click demo login buttons are provided on the login page).*
 
 ---
 
@@ -110,7 +112,7 @@ CampusConnect/
 │   ├── src/
 │   │   ├── components/           # Navbar, Footer, StatCard, CandidateRankingModal
 │   │   ├── context/              # AuthContext (JWT session management)
-│   │   ├── pages/                # Landing, Dashboards, Ranking, Analyzer, JobSearch
+│   │   ├── pages/                # Landing, StudentProfile, Dashboards, Ranking, Analyzer
 │   │   ├── services/             # Axios API client (VITE_API_URL configured)
 │   │   ├── App.jsx               # Route definitions
 │   │   └── index.css             # Tailwind glassmorphic styling
@@ -120,14 +122,15 @@ CampusConnect/
 │   └── vercel.json               # SPA routing & security headers for Vercel
 ├── backend/                      # Spring Boot 3 REST API (Deploy on Render)
 │   ├── src/main/java/com/campusconnect/
-│   │   ├── config/               # SecurityConfig, CorsConfig, RestTemplateConfig
+│   │   ├── config/               # SecurityConfig (Flexible localhost CORS), CorsConfig
 │   │   ├── controller/           # Auth, Student, Recruiter, Job, Ranking, Admin
 │   │   ├── service/              # Business logic, Storage, Notification, AI integration
-│   │   ├── entity/               # JPA Entities: User, Student, Job, Application, etc.
-│   │   ├── repository/           # Spring Data JPA interfaces
+│   │   ├── entity/               # JPA Entities: User, Student, StudentSkill, Project, Experience
+│   │   ├── repository/           # Spring Data JPA: Student, StudentSkill, Project, Experience
 │   │   ├── ranking/              # DsaRankingEngine, MaxHeap, WeightConfig
 │   │   ├── security/             # JwtTokenProvider, JwtAuthenticationFilter
 │   │   └── util/                 # SeedDataInitializer
+│   ├── src/main/resources/       # application.yml
 │   └── pom.xml
 ├── ai-service/                   # Python FastAPI AI / NLP Microservice (Deploy on Render)
 │   ├── app/
@@ -147,38 +150,80 @@ CampusConnect/
 
 ## 7. Local Setup & Execution
 
-### 1. Start Python AI Microservice
-```bash
-cd ai-service
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Linux/macOS:
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --port 8000 --reload
-```
+### Prerequisites
+- **Java 17+** (JDK 17 or JDK 21) & **Apache Maven**
+- **Node.js 18+** & **npm**
+- **Python 3.10+** (Optional, for running local NLP microservice)
 
-### 2. Start Spring Boot Backend
+---
+
+### Step 1: Start Spring Boot Backend
+Open a terminal and run:
 ```bash
 cd backend
-mvn clean spring-boot:run
+mvn spring-boot:run
 ```
-*(Automatically starts on port 8080 and populates H2/MySQL seed data).*
+*(If Maven is not in your system PATH on Windows: `C:\apache-maven-3.9.16\bin\mvn.cmd spring-boot:run`)*
 
-### 3. Start React Frontend
+- Backend URL: **`http://localhost:8080`**
+- H2 Console: **`http://localhost:8080/h2-console`** (`JDBC URL: jdbc:h2:mem:campusconnect_db`, User: `sa`, Password: empty)
+
+---
+
+### Step 2: Start React Frontend
+Open a second terminal and run:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-*(Starts on [http://localhost:5173](http://localhost:5173)).*
+
+- Web App URL: **`http://localhost:5173`** (or `http://localhost:5174`)
 
 ---
 
-## 8. Deployment: Vercel & Render (No Docker Required)
+### Step 3: Start Python AI Microservice *(Optional)*
+```bash
+cd ai-service
+python -m venv venv
 
-See the full step-by-step guide in [docs/deployment.md](docs/deployment.md).
+# Windows:
+venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
+
+pip install -r requirements.txt
+uvicorn app.main:app --port 8000 --reload
+```
+*(If the AI service is not running, the backend seamlessly falls back to its built-in NLP heuristics).*
+
+---
+
+## 8. API Endpoints Overview
+
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| `POST` | `/api/auth/login` | Authenticate user & receive JWT token | Public |
+| `POST` | `/api/auth/register` | Register new Student or Recruiter | Public |
+| `GET` | `/api/student/me` | Fetch authenticated student profile | Student / Admin |
+| `PUT` | `/api/student/me` | Update academic & personal details | Student / Admin |
+| `POST` | `/api/student/skills` | Add technical skill with proficiency level | Student / Admin |
+| `PUT` | `/api/student/skills/{id}` | Update skill name / level / experience | Student / Admin |
+| `DELETE` | `/api/student/skills/{id}` | Remove technical skill | Student / Admin |
+| `POST` | `/api/student/projects` | Add project with tech stack & GitHub URL | Student / Admin |
+| `PUT` | `/api/student/projects/{id}` | Update project details | Student / Admin |
+| `DELETE` | `/api/student/projects/{id}` | Remove project | Student / Admin |
+| `POST` | `/api/student/experiences` | Add internship or work experience | Student / Admin |
+| `PUT` | `/api/student/experiences/{id}` | Update work experience | Student / Admin |
+| `DELETE` | `/api/student/experiences/{id}` | Delete work experience | Student / Admin |
+| `GET` | `/api/jobs` | Browse active campus job listings | Public |
+| `GET` | `/api/recruiter/jobs/{id}/ranked-candidates` | Run DSA Max-Heap ranking for a job | Recruiter / Admin |
+
+---
+
+## 9. Deployment: Vercel & Render (No Docker Required)
+
+See the detailed step-by-step guide in [docs/deployment.md](docs/deployment.md).
 
 ### Frontend on Vercel
 1. Import repository on [Vercel](https://vercel.com) with root directory set to `frontend`.
@@ -186,30 +231,32 @@ See the full step-by-step guide in [docs/deployment.md](docs/deployment.md).
    - `VITE_API_URL` = `https://<YOUR-RENDER-BACKEND>.onrender.com/api`
 3. Click **Deploy**.
 
-### Backend & AI Microservice on Render (1-Click Blueprint)
+### Backend & AI Microservice on Render
 1. In Render, select **Blueprints** → **New Blueprint Instance**.
-2. Select your repository. Render automatically reads [`render.yaml`](render.yaml) to configure:
+2. Select your repository: `https://github.com/AbhijatPatel/CampusConnect.git`. Render automatically reads [`render.yaml`](render.yaml) to configure:
    - `campusconnect-backend` (Native Java environment)
    - `campusconnect-ai-service` (Native Python environment)
-3. Set your MySQL credentials (`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`).
+3. Provide your MySQL credentials (`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`).
 4. Click **Apply**.
 
 ---
 
-## 9. Testing
+## 10. Testing
 
 ```bash
-# Run DSA Ranking Engine and Auth tests
+# Run Backend unit & integration tests (DSA Ranking Engine & Auth)
 cd backend
 mvn test
 
-# Run AI NLP test suite
+# Run AI service NLP tests
 cd ai-service
 pytest
 ```
 
 ---
 
-## 10. License & Author
+## 11. License & Author
 
-Distributed under the MIT License. Built with precision for modern university placement drives.
+- **Author**: [Abhijat Patel](https://github.com/AbhijatPatel)
+- **Repository**: [https://github.com/AbhijatPatel/CampusConnect](https://github.com/AbhijatPatel/CampusConnect)
+- **License**: Distributed under the [MIT License](LICENSE).
