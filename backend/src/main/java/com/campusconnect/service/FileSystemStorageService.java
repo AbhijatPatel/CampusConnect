@@ -28,7 +28,8 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public String storeFile(MultipartFile file, String subDir) {
-        String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String rawFilename = file.getOriginalFilename();
+        String originalFileName = StringUtils.cleanPath(rawFilename != null ? rawFilename : "file");
 
         try {
             if (originalFileName.contains("..")) {

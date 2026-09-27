@@ -221,22 +221,23 @@ uvicorn app.main:app --port 8000 --reload
 
 ---
 
-## 9. Deployment: Vercel & Render (No Docker Required)
+## 9. Deployment: Vercel & Render
 
-See the detailed step-by-step guide in [docs/deployment.md](docs/deployment.md).
+See the complete step-by-step walkthrough in [docs/deployment.md](docs/deployment.md).
 
 ### Frontend on Vercel
-1. Import repository on [Vercel](https://vercel.com) with root directory set to `frontend`.
-2. Add Environment Variable:
+1. Import repository on [Vercel](https://vercel.com).
+2. Set **Root Directory** to `frontend`.
+3. Add Environment Variable:
    - `VITE_API_URL` = `https://<YOUR-RENDER-BACKEND>.onrender.com/api`
-3. Click **Deploy**.
+4. Click **Deploy**.
 
 ### Backend & AI Microservice on Render
 1. In Render, select **Blueprints** → **New Blueprint Instance**.
-2. Select your repository: `https://github.com/AbhijatPatel/CampusConnect.git`. Render automatically reads [`render.yaml`](render.yaml) to configure:
-   - `campusconnect-backend` (Native Java environment)
-   - `campusconnect-ai-service` (Native Python environment)
-3. Provide your MySQL credentials (`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`).
+2. Select your repository. Render automatically reads [`render.yaml`](render.yaml) to configure:
+   - `campusconnect-backend` (Spring Boot Web Service via multi-stage Docker)
+   - `campusconnect-ai-service` (FastAPI Python AI Microservice)
+3. Connect your PostgreSQL (Render Managed) or MySQL database (`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`), or let it fall back to embedded H2 for instant testing.
 4. Click **Apply**.
 
 ---
