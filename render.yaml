@@ -28,13 +28,12 @@ services:
       - key: ALLOWED_ORIGINS
         sync: false
 
-  # 2. Python FastAPI AI Microservice (Render Native Python)
+  # 2. Python FastAPI AI Microservice (Docker container)
   - type: web
     name: campusconnect-ai-service
-    runtime: python
+    runtime: docker
     rootDir: ai-service
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    dockerfilePath: Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
